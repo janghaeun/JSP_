@@ -81,11 +81,32 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.sql.*" %>
+<%@page import="com.oreilly.servlet.MultipartRequest" %>
+<%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
+<%@page import="java.util.*" %>
+<%@page import="java.io.*" %>
+
 <%@ page import="java.net.URLEncoder" %>
 
 <% request.setCharacterEncoding("utf-8"); %>
 
 <%
+    //파일 이름과 크기를 위한 변수 선언
+    String filename = null;
+    int filesize = 0;
+
+    //파일 업로드 폴더 생성
+    String saveFolder = "upload_files";
+
+    //multipartrequst 클래스 생성자의 파라미터 설정
+    ServletContext context = getServletContext();
+    String realFolder = context.getRealPath(saveFolder);
+    out.println(saveFolder);
+
+    int limitSize = 10*1024*1024;
+    String encType = "utf-8";
+    DefaultFileRenamePolicy policy = new DefaultFileRenamePolicy();
+
     // 객체 선언
     Connection conn = null;
     Statement stmt = null;
@@ -95,6 +116,7 @@
     
 
     try {
+
         // jdbc 설정
         Class.forName("com.mysql.jdbc.Driver");
         String jdbcUrl = "jdbc:mysql://localhost:3306/jspdb";
@@ -102,13 +124,26 @@
         String jdbcPw = "rootpass";
         conn = DriverManager.getConnection(jdbcUrl,jdbcId,jdbcPw);
 
+        // multireqest 객체 생성 파일 업로드 발생
+       MultipartRequest multi = new MultipartRequest(request,realFolder, limitSize, encType, policy);
+
+       //업로드되어 서버에 저장된 파일 이름
+       filename = multi.getFilesystemName("filename");
+
+       //파일 객체의 선언과 파일 크기 추출
+       if(filename != null) {
+           Enumeration files = multi.getFileNames();
+           String fname = (String) files.nextElement();
+           File file = multi.getFile(fname);
+           filesize = (int) file.length();
+       }
 
         // 전송된 데이터 추출
-        String name = request.getParameter("name");
-        String mail = request.getParameter("mail");
-        String subject = request.getParameter("subject");
-        String content = request.getParameter("content");
-        String pass = request.getParameter("pass");
+        String name = multi.getParameter("name");
+        String mail = multi.getParameter("mail");
+        String subject = multi.getParameter("subject");
+        String content = multi.getParameter("content");
+        String pass = multi.getParameter("pass");
 
 
         // 새로운 레코드의 RcdNo와 GrpNo 생성
@@ -121,8 +156,7 @@
 
 
         // 기타 입력 데이터 생성
-        String filename = null;
-        int filesize = 0;
+
         int refer = 0;
         int level = 0;
         int order = 1;

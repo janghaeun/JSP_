@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
 <%@ page import="java.net.URLEncoder" %>
 
 <%
@@ -85,7 +86,7 @@
 //------------------------------- JSP CODE END 	
 %>
 
-<FORM NAME="BoardWrite" METHOD=POST ACTION="BoardWriteProc.jsp">
+<FORM action="BoardWriteProc.jsp" NAME="BoardWrite"  METHOD=POST enctype="multipart/form-data">
 
 <TABLE WIDTH=620 BORDER=1 CELLSPACING=0 CELLPADDING=2 ALIGN=CENTER>
 
