@@ -30,7 +30,7 @@
         String jdbcPw = "rootpass";
         conn = DriverManager.getConnection(jdbcUrl, jdbcId, jdbcPw);
 
-        String Query1 = "select UsrName, UsrMail, UsrSubject, UsrContent from board where RcdNo=?";
+        String Query1 = "select UsrName, UsrMail, UsrSubject, UsrContent, UsrFileName, UsrFileSize from board where RcdNo=?";
 
         pstmt = conn.prepareStatement(Query1);
         pstmt.setInt(1, rno);
@@ -45,6 +45,9 @@
         content = content.replaceAll("\r\n", "<BR>");
 
 
+        String filename = rs.getString(5);
+        int filesize = rs.getInt(6);
+        filesize = filesize/1000;
 %>
 
 <HTML>
@@ -120,7 +123,17 @@
 
         <TR>
             <TD WIDTH=120 ALIGN=CENTER><B>파일첨부</B></TD>
-            <TD WIDTH=500>첨부된 파일이 없습니다.</TD>
+            <TD WIDTH=500>
+            <%
+                if(filename == null){
+                    out.println("첨부된 파일이 없습니다.");
+                }else {
+                    String IMGURL = "../images/btn_filedowm.gif";
+                    out.println("<img align = ABSMIDDLE SRC"+IMGURL+">");
+                    out.println(filename+"("+filesize+"kbyte )");
+                }
+            %>
+            </TD>
         </TR>
 
         <TR>

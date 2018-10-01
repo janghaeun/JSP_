@@ -1,13 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: sihan
-  Date: 2018-06-14
-  Time: 오후 3:17
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.sql.*" %>
+<%@page import="java.io.*" %>
 
 <% request.setCharacterEncoding("utf-8");%>
 
@@ -39,18 +34,34 @@
         String jdbcPw = "rootpass";
         conn = DriverManager.getConnection(jdbcUrl, jdbcId, jdbcPw);
 
-        String  Query1 = "Select UsrPass from board where RcdNo=?";
+        String  Query1 = "Select UsrPass,UsrFileName from board where RcdNo=?";
         pstmt = conn.prepareStatement(Query1);
         pstmt.setInt(1,rno);
         rs = pstmt.executeQuery();
 
         rs.next();
         String dbPass = rs.getString(1);
+        String filename = rs.getString(2);
 
         if(passwd.equals(dbPass)){
             String Query2 = "Delete from board where RcdNo=" +rno;
             pstmt = conn.prepareStatement(Query2);
             pstmt.executeUpdate(Query2);
+
+            if(filename !=null){
+                String realFolder = "";
+                String saveFolder = "upload_files";
+
+                ServletContext context = getServletContext();
+                realFolder = context.getRealPath(saveFolder);
+
+                String PathAndName = realFolder+"\\"+filename;
+                File file = new File(PathAndName);
+
+                if(!file.delete()){
+                    out.println("파일 삭제에 실패했습니다.");
+                }
+            }
 
             rs.close();
             pstmt.close();
