@@ -1,13 +1,12 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: sihan
-  Date: 2018-06-12
-  Time: 오후 3:45
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.net.URLEncoder" %>
+<%@page import ="com.oreilly.servlet.MultipartRequest"%>
+<%@page import ="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
+<%@page import="java.util.*" %>
+<%@page import="java.io.*" %>
+
 
 <% request.setCharacterEncoding("utf-8"); %>
 
@@ -30,6 +29,14 @@
     else
         key = "";
 
+    String realFolder ="";
+    String saveFolder = "upload_files";
+    String encType = "utf-8";
+    int sizeLimit = 10*1024*1024;
+    ServletContext context = getServletContext();
+    realFolder =context.getRealPath(saveFolder);
+    MultipartRequest multi = null;
+
 
     try {
         Class.forName("com.mysql.jdbc.Driver");
@@ -40,29 +47,61 @@
 
         conn = DriverManager.getConnection(jdbcUrl, jdbcId, jdbcPw);
 
-        String mail = request.getParameter("mail");
-        String subject = request.getParameter("subject");
-        String content = request.getParameter("content");
-        String passwd = request.getParameter("pass");
+        multi = new MultipartRequest(request,realFolder,sizeLimit,encType, new DefaultFileRenamePolicy());
+        String filename = multi.getFilesystemName("filename");
 
-        String Query1 = "Select UsrPass from board where RcdNo=?";
+        String mail = multi.getParameter("mail");
+        String subject = multi.getParameter("subject");
+        String content = multi.getParameter("content");
+        String passwd = multi.getParameter("pass");
+
+        String Query1 = "Select UsrPass, UsrFileName from board where RcdNo=?";
         pstmt = conn.prepareStatement(Query1);
         pstmt.setInt(1,rno);
         rs=pstmt.executeQuery();
 
         rs.next();
         String dbPass = rs.getString(1);
+        String oldfilename = rs.getString(2);
 
         if(passwd.equals(dbPass)){
 
-            String Query2 = "update board set UsrMail=?, UsrSubject=?, UsrContent=? where RcdNo=?";
-            pstmt = conn.prepareStatement(Query2);
-            pstmt.setString(1,mail);
-            pstmt.setString(2,subject);
-            pstmt.setString(3,content);
-            pstmt.setInt(4,rno);
+            if(filename !=null){
+                if(oldfilename !=null){
+                    String PathAndName = realFolder+"\\"+"oldFilename";
+                    File file1 = new File(PathAndName);
+                    if(!file1.delete()){
+                        out.println("파일 삭제에 실패했습니다.");
+                    }
+                }
+                Enumeration files = multi.getFileNames();
+                String fname = (String)files.nextElement();
+                File file = multi.getFile(fname);
+                int filesize = (int)file.length();
 
-            pstmt.executeUpdate();
+                String Query2 = "update board set UsrMail=?, UsrSubject=?, UsrContent=?, UsrFileName=?, UsrFileSize=? where RcoNo=?";
+
+                pstmt = conn.prepareStatement(Query2);
+                pstmt.setString(1, mail);
+                pstmt.setString(2,subject);
+                pstmt.setString(3,content);
+                pstmt.setString(4,filename);
+                pstmt.setInt(5,filesize);
+                pstmt.setInt(6,rno);
+
+                pstmt.executeUpdate();
+
+            }else {
+
+                String Query2 = "update board set UsrMail=?, UsrSubject=?, UsrContent=? where RcdNo=?";
+                pstmt = conn.prepareStatement(Query2);
+                pstmt.setString(1,mail);
+                pstmt.setString(2,subject);
+                pstmt.setString(3,content);
+                pstmt.setInt(4,rno);
+
+                pstmt.executeUpdate();
+            }
 
             rs.close();
             pstmt.close();
@@ -84,6 +123,6 @@
         }
 
     }catch (SQLException e) {
-        e.printStackTrace();
+        out.print(e);
     }
 %>

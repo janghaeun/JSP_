@@ -36,7 +36,7 @@
         pstmt.setInt(1,rno);
         pstmt.executeUpdate();
 
-        String Query2 = "select UsrName, UsrMail,UsrSubject, UsrContent from board  where RcdNo=?";
+        String Query2 = "select UsrName, UsrMail,UsrSubject, UsrContent,UsrFileName, UsrFileSize from board  where RcdNo=?";
         pstmt = conn.prepareStatement(Query2);
         pstmt.setInt(1,rno);
 
@@ -47,6 +47,9 @@
         String mail = rs1.getString(2);
         String subject = rs1.getString(3).trim();
         String content = rs1.getString(4).trim();
+        String filename = rs1.getString(5);
+        int filesize = rs1.getInt(6);
+        filesize = filesize/1000;
         //content = content.replaceAll("\r\n","<BR>");
 %>
 
@@ -94,7 +97,7 @@
 //------------------------------- JSP CODE END 	
 %>
 
-<FORM NAME="BoardModify" METHOD=POST ACTION="BoardModifyProc.jsp?rno=<%=rno%>&column=<%=column%>&key=<%=key%>">
+<FORM NAME="BoardModify" METHOD=POST ACTION="BoardModifyProc.jsp?rno=<%=rno%>&column=<%=column%>&key=<%=key%>" ENCTYPE="multipart/form-data">
 
     <TABLE WIDTH=620 BORDER=1 CELLSPACING=0 CELLPADDING=1 ALIGN=CENTER>
 
@@ -127,7 +130,17 @@
         <TR>
             <TD WIDTH=120 ALIGN=CENTER><B>첨부 파일</B></TD>
             <TD WIDTH=500>
-                첨부된 파일이 없습니다.
+            <%
+                if(filename==null){
+                    out.println("첨부된 파일이 없습니다.");
+                }else{
+                    String IMGURL ="../images/btn_filedowm.gif";
+                    out.println("<IMG ALIGN =ABSMIDDLE SRC="+IMGURL+">");
+            %>
+                <A href="filedownload.jsp?filename=<%=filename%>"><%=filename%>(<%=filesize%> Kbyte)</A>
+                <%
+                    }
+                %>>
             </TD>
         </TR>
         <TR>
