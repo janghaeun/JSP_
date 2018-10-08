@@ -186,11 +186,80 @@
                 <IMG SRC="../images/btn_new.gif" onClick="javascript:location.replace('BoardWrite.jsp?column=<%=column%>&key=<%=encoded_key%>')"; STYLE=CURSOR:HAND>
             </TD>
             <TD WIDTH=320 ALIGN=CENTER>
-                <IMG SRC="../images/btn_bf_block.gif">&nbsp;
-                <IMG SRC="../images/btn_bf_page.gif">&nbsp;
-                1&nbsp;&nbsp;2&nbsp;&nbsp;3&nbsp;&nbsp;4&nbsp;&nbsp;5&nbsp;&nbsp;6&nbsp;&nbsp;7&nbsp;&nbsp;8&nbsp;&nbsp;9&nbsp;&nbsp;10&nbsp;
-                <IMG SRC="../images/btn_nxt_page.gif">&nbsp;
-                <IMG SRC="../images/btn_nxt_block.gif">
+                <%
+
+                    TotalPages =(int)Math.ceil((double)TotalRecords/PageRecords);
+                    TotalPageSets = (int)Math.ceil((double)TotalPages/PageSets);
+                    CurrentPageSet = (int)Math.ceil((double)CurrentPage/PageSets);
+
+                    String bf_block = "../images/btn_bf_block.gif";
+                    String bf_page = "../images/btn_bf_page.gif";
+                    String nxt_page = "../images/btn_nxt_page.gif";
+                    String nxt_block = "../images/btn_nxt_block.gif";
+
+                    //<IMG SRC="../images/btn_bf_block.gif">&nbsp;
+                    if(CurrentPageSet>1){
+                        int BeforePageSetLastPage = PageSets *(CurrentPageSet-1);
+                        String retUrl = "BoardList.jsp?CurrentPage="+BeforePageSetLastPage+"&column="+column+"&key="+encoded_key;
+
+                        String click = "javascript:location.replace('"+retUrl+"')";
+                        out.println("<IMG SRC = "+bf_block+" onClick="+click+"style=cursor:hand>");
+                    }else{
+                        out.println("<IMG SRC="+bf_block+">");
+                    }
+
+                    //<IMG SRC="../images/btn_bf_page.gif">&nbsp;
+                    if(CurrentPage>1){
+                        int BeforePageSetLastPage = PageSets *(CurrentPage-1);
+                        String retUrl = "BoardList.jsp?CurrentPage="+BeforePageSetLastPage+"&column="+column+"&key="+encoded_key;
+
+                        String click = "javascript:location.replace('"+retUrl+"')";
+                        out.println("<IMG SRC = "+bf_page+" onClick="+click+"style=cursor:hand>");
+                    }else{
+                        out.println("<IMG SRC="+bf_page+">");
+                    }
+
+                    int FirstPage = PageSets *(CurrentPageSet-1);
+                    int LastPage = PageSets *(CurrentPageSet);
+
+                    if(CurrentPageSet ==TotalPageSets){
+                        LastPage = TotalPages;
+                    }
+
+                    for(int i=FirstPage+1; i<=LastPage;i++){
+                        if(CurrentPage==i){
+                            out.println("<B>"+i+"</b>");
+                        }else{
+                            String retUrl = "BoardList.jsp?CurrentPage="+i+"&column="+column+"&key="+encoded_key;
+                            out.println("<a href ="+retUrl+">"+i+"</a>");
+                        }
+                    }
+                    //<IMG SRC="../images/btn_nxt_page.gif">&nbsp;
+                    if(TotalPages>CurrentPage){
+
+                        int NextPage = CurrentPage+1;
+                        String retUrl = "BoardList.jsp?CurrentPage="+NextPage+"&column="+column+"&key="+encoded_key;
+
+                        String click = "javascript:location.replace('"+retUrl+"')";
+                        out.println("<IMG SRC = "+nxt_page+" onClick="+click+"style=cursor:hand>");
+                    }else{
+                        out.println("<IMG SRC="+nxt_page+">");
+                    }
+
+                    //<IMG SRC="../images/btn_nxt_block.gif">
+                    if(TotalPageSets>CurrentPageSet){
+
+                        int NextPageSet = PageSets* CurrentPageSet +1;
+                        String retUrl = "BoardList.jsp?CurrentPage="+NextPageSet+"&column="+column+"&key="+encoded_key;
+
+                        String click = "javascript:location.replace('"+retUrl+"')";
+                        out.println("<IMG SRC = "+nxt_block+" onClick="+click+"style=cursor:hand>");
+                    }else{
+                        out.println("<IMG SRC="+nxt_block+">");
+                    }
+
+
+                %>
             </TD>
             <TD WIDTH=200 ALIGN=RIGHT>
                 <SELECT NAME="column" SIZE=1>
@@ -200,7 +269,8 @@
                 </SELECT>
                 <INPUT TYPE=TEXT NAME="key" SIZE=10 MAXLENGTH=20>
                 <IMG SRC="../images/btn_search.gif" ALIGN=absmiddle STYLE=CURSOR:HAND onclick="javascript:submit()">
-            </TD>
+
+           </TD>
         </TR>
 
     </TABLE>
