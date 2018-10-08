@@ -11,7 +11,43 @@
     ResultSet rs1 = null;
     ResultSet rs2 = null;
 
-    int totalRecords = 0;
+    int TotalRecords = 0; // query로 나중에 바꿀 거임
+
+    //------------------보드 리스트의 페이지 전체 set과 한페이지 내 페이지 갯수를 지정할 변수들
+    int CurrentPage = 0;
+    int Number =0;
+    int TotalPages =0;
+    int TotalPageSets =0;
+    int CurrentPageSet =0;
+
+    //------------------------ 페이지의 크기와 페이지 집합 크기 지정
+    int PageRecords = 10;
+    int PageSets = 10;
+
+    //------------------------페이지 번호 전달 없을 경우 페이지 번호 지정
+    if(request.getParameter("CurrentPage")==null){
+        CurrentPage =1;
+    }else{
+        CurrentPage = Integer.parseInt(request.getParameter("CurrentPage"));
+    }
+
+    String Query1 = "";
+    String Query2 = "";
+    String encoded_key = "";
+
+    //-----------------페이지별 시작 레코드 인덱스 추출
+    int FirstRecord = PageRecords *(CurrentPage-1);
+
+    String column = request.getParameter("column");
+    if (column == null)
+        column = "";
+
+    String key = request.getParameter("key");
+    if (key != null) {
+        encoded_key = URLEncoder.encode(key,"utf-8");
+    } else {
+        key ="";
+    }
 
     try {
 
@@ -21,27 +57,13 @@
         String jdbcPw = "rootpass";
         conn = DriverManager.getConnection(jdbcUrl, jdbcId, jdbcPw);
 
-        String Query1 = "";
-        String Query2 = "";
-        String encoded_key = "";
 
-        String column = request.getParameter("column");
-        if (column == null)
-            column = "";
-
-        String key = request.getParameter("key");
-        if (key != null) {
-            encoded_key = URLEncoder.encode(key,"utf-8");
-        } else {
-            key ="";
-        }
-
-        if (column.equals("") || key.equals("")) {
-            Query1 = "select count(RcdNo) from board";
-            Query2 = "Select RcdNo, UsrSubject, UsrName, UsrDate, UsrRefer,RcdLevel from board order by GrpNo desc, RcdOrder ASC ";
-        } else {
-            Query1 = "select count(RcdNo) from board where  "+ column + " like '%" + key + "%'";
-            Query2 = "Select RcdNo, UsrSubject, UsrName, UsrDate, UsrRefer,RcdLevel from board where "+column+ " like '%" + key + "%'order by GrpNo desc, RcdOrder ASC";
+        if (column.equals("") || key.equals("")) { //column 과 key가 공백이라면 그대로 목록 출력
+            Query1 = "SELECT count(RcdNo) FROM board";
+            Query2 = "SELECT RcdNo, UsrSubject, UsrName, UsrDate, UsrRefer,RcdLevel FROM board ORDER BY grpno DESC, rcdorder asc LIMIT " + FirstRecord + " , " + PageRecords;
+        } else { //공백이 아니라면 검색한 거 그대로 출력!
+            Query1 = "SELECT count(RcdNo) FROM board WHERE " + column + " LIKE '%" + key + "%'";
+            Query2 = "SELECT RcdNo, UsrSubject, UsrName, UsrDate, UsrRefer,RcdLevel FROM board WHERE " + column + " LIKE '%" + key + "%' ORDER BY grpno DESC rcdorder asc LIMIT " + FirstRecord + " , " + PageRecords;
         }
 
         pstmt = conn.prepareStatement(Query1);
@@ -51,8 +73,10 @@
         rs2 = pstmt.executeQuery();
 
         rs1.next();
-        totalRecords = rs1.getInt(1);
+        TotalRecords = rs1.getInt(1);
 
+        //------------------------페이지 별 가상 시작번호 생성
+        Number = TotalRecords - (CurrentPage-1) *PageRecords;
 %>
 
 <HTML>
@@ -110,7 +134,7 @@
 
     %>
     <TR>
-        <TD WIDTH=45 ALIGN=CENTER><%=totalRecords%></TD>
+        <TD WIDTH=45 ALIGN=CENTER><%=Number%></TD>
         <TD WIDTH=395 ALIGN=LEFT>
 
         <%
@@ -148,7 +172,7 @@
         <TD ALIGN=CENTER><%=refer%></TD>
     </TR>
     <%
-            totalRecords--;
+            Number--;
         }
     %>
 </TABLE>
