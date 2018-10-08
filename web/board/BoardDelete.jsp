@@ -23,6 +23,8 @@
         key = "";
     }
 
+    int CurrentPage = Integer.parseInt(request.getParameter("CurrentPage"));
+
     try {
         Class.forName("com.mysql.jdbc.Driver");
         String jdbcUrl = "jdbc:mysql://localhost:3306/jspdb";
@@ -93,7 +95,7 @@
 //------------------------------- JSP CODE END 	
 %>
 
-<FORM NAME="BoardDelete" METHOD=POST ACTION="BoardDeleteProc.jsp?rno=<%=rno%>&column=<%=column%>&key=<%=key%>">
+<FORM NAME="BoardDelete" METHOD=POST ACTION="BoardDeleteProc.jsp?rno=<%=rno%>&column=<%=column%>&key=<%=key%>&CurrentPage=<%=CurrentPage%>">
 
     <TABLE WIDTH=620 BORDER=1 CELLSPACING=0 CELLPADDING=1 ALIGN=CENTER>
 
@@ -164,7 +166,7 @@
         <TD>
             <IMG SRC="../images/btn_del.gif" STYLE=CURSOR:HAND onclick="javascript:CheckForm(BoardDelete)">&nbsp;&nbsp;
             <IMG SRC="../images/btn_cancel.gif" STYLE=CURSOR:HAND
-                 onClick="javascript:location.replace('BoardList.jsp?rno=<%=rno%>&column=<%=column%>&key=<%=encoded_key%>')">
+                 onClick="javascript:location.replace('BoardContent.jsp?rno=<%=rno%>&column=<%=column%>&key=<%=encoded_key%>&CurrentPage=<%=CurrentPage%>')">
         </TD>
     </TR>
 

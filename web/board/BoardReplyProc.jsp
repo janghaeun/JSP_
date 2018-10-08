@@ -5,11 +5,14 @@
 <%@page import="java.util.*" %>
 <%@page import="java.io.*" %>
 <%@ page import="java.net.URLEncoder"%>
+<%@ page import="org.omg.CORBA.Current" %>
 
 <%request.setCharacterEncoding("utf-8");%>
 
 <%
     int rno = Integer.parseInt(request.getParameter("rno"));
+
+    int CurrentPage = Integer.parseInt(request.getParameter("CurrentPage"));
 
     Connection conn = null;
     PreparedStatement pstmt = null;
@@ -27,6 +30,7 @@
     }else{
         key="";
     }
+
 
     String filename = null;
     int filesize = 0;
@@ -122,7 +126,7 @@
         pstmt.close();
         conn.close();
 
-    String retUrl = "BoardList.jsp?column="+column +"&key="+encoded_key;
+    String retUrl = "BoardList.jsp?column="+column +"&key="+encoded_key+"&CurrentPage="+ CurrentPage;
          response.sendRedirect(retUrl);
     }
 %>

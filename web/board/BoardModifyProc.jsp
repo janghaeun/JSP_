@@ -14,6 +14,8 @@
 
     int rno = Integer.parseInt(request.getParameter("rno"));
 
+    int CurrentPage = Integer.parseInt(request.getParameter("CurrentPage"));
+
     Connection conn = null;
     PreparedStatement pstmt = null;
     ResultSet rs = null;
@@ -28,6 +30,7 @@
         encoded_key = URLEncoder.encode(key,"utf-8");
     else
         key = "";
+
 
     String realFolder ="";
     String saveFolder = "upload_files";
@@ -107,7 +110,7 @@
             pstmt.close();
             conn.close();
 
-            String url = "BoardContent.jsp?rno=" + rno +"&column=" + colunmn +"&key="+ encoded_key;
+            String url = "BoardContent.jsp?rno=" + rno +"&column=" + colunmn +"&key="+ encoded_key+"&CuurentPage="+CurrentPage;
             response.sendRedirect(url);
         }
         else{

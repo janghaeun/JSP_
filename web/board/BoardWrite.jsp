@@ -15,6 +15,9 @@
     } else {
         key ="";
     }
+
+
+    int CurrentPage = Integer.parseInt(request.getParameter("CurrentPage"));
 %>
 
 
@@ -140,7 +143,7 @@
 
 	<TR ALIGN=CENTER>
 		<TD WIDTH=110 ALIGN=LEFT>
-			<IMG SRC="../images/btn_list.gif" onClick="javascript:location.replace('BoardList.jsp?column=<%=column%>&key=<%=encoded_key%>')" STYLE=CURSOR:HAND>
+			<IMG SRC="../images/btn_list.gif" onClick="javascript:location.replace('BoardList.jsp?column=<%=column%>&key=<%=encoded_key%>&CurrentPage=<%=CurrentPage%>')" STYLE=CURSOR:HAND>
 		</TD>
 		<TD WIDTH=400 ALIGN=CENTER>		
 			<IMG SRC="../images/btn_save.gif" STYLE=CURSOR:HAND onclick="javascript:CheckForm(BoardWrite)">&nbsp;&nbsp;

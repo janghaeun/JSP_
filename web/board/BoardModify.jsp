@@ -23,6 +23,8 @@
         key ="";
     }
 
+    int CurrentPage = Integer.parseInt(request.getParameter("CurrentPage"));
+
     try {
         Class.forName("com.mysql.jdbc.Driver");
         String jdbcUrl = "jdbc:mysql://localhost:3306/jspdb";
@@ -97,7 +99,7 @@
 //------------------------------- JSP CODE END 	
 %>
 
-<FORM NAME="BoardModify" METHOD=POST ACTION="BoardModifyProc.jsp?rno=<%=rno%>&column=<%=column%>&key=<%=key%>" ENCTYPE="multipart/form-data">
+<FORM NAME="BoardModify" METHOD=POST ACTION="BoardModifyProc.jsp?rno=<%=rno%>&column=<%=column%>&key=<%=key%>&CurrentPage=<%=CurrentPage%>" ENCTYPE="multipart/form-data">
 
     <TABLE WIDTH=620 BORDER=1 CELLSPACING=0 CELLPADDING=1 ALIGN=CENTER>
 
@@ -166,7 +168,7 @@
     <TR ALIGN=CENTER>
         <TD>
             <IMG SRC="../images/btn_mdfy.gif" STYLE=CURSOR:HAND onclick="javascript:CheckForm(BoardModify)">&nbsp;&nbsp;
-            <IMG SRC="../images/btn_cancel.gif" STYLE=CURSOR:HAND onClick="javascript:location.replace('BoardList.jsp?rno=<%=rno%>&column=<%=column%>&key=<%=encoded_key%>')">
+            <IMG SRC="../images/btn_cancel.gif" STYLE=CURSOR:HAND onClick="javascript:location.replace('BoardContent.jsp?rno=<%=rno%>&column=<%=column%>&key=<%=encoded_key%>&CurrentPage=<%=CurrentPage%>')">
         </TD>
     </TR>
 

@@ -10,6 +10,8 @@
     String passwd = request.getParameter("pass");
     int rno = Integer.parseInt(request.getParameter("rno"));
 
+    int CurrentPage = Integer.parseInt(request.getParameter("CurrentPage"));
+
     Connection conn = null;
     PreparedStatement pstmt = null;
     ResultSet rs = null;
@@ -67,7 +69,7 @@
             pstmt.close();
             conn.close();
 
-            String retUrl = "BoardList.jsp?column=" + column + "&key=" + encoded_key;
+            String retUrl = "BoardList.jsp?column=" + column + "&key=" + encoded_key+"&CurrentPage"+CurrentPage;
             response.sendRedirect(retUrl);
         }
 

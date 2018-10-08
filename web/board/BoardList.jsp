@@ -153,7 +153,7 @@
             }
         %>
 
-        <A HREF="BoardContent.jsp?rno=<%=rno%>&column=<%=column%>&key=<%=encoded_key%>"><%=subject%></A>
+        <A HREF="BoardContent.jsp?rno=<%=rno%>&column=<%=column%>&key=<%=encoded_key%>&CurrentPage=<%=CurrentPage%>"><%=subject%></A>
         <%
             long now = System.currentTimeMillis();
             long dist = (now-date)/1000;
@@ -183,11 +183,11 @@
 
         <TR>
             <TD ALIGN=LEFT WIDTH=100>
-                <IMG SRC="../images/btn_new.gif" onClick="javascript:location.replace('BoardWrite.jsp?column=<%=column%>&key=<%=encoded_key%>')"; STYLE=CURSOR:HAND>
+                <IMG SRC="../images/btn_new.gif" onClick="javascript:location.replace('BoardWrite.jsp?column=<%=column%>&key=<%=encoded_key%>&CurrentPage=<%=CurrentPage%>')"; STYLE=CURSOR:HAND>
             </TD>
             <TD WIDTH=320 ALIGN=CENTER>
                 <%
-
+                    //-------------------------------
                     TotalPages =(int)Math.ceil((double)TotalRecords/PageRecords);
                     TotalPageSets = (int)Math.ceil((double)TotalPages/PageSets);
                     CurrentPageSet = (int)Math.ceil((double)CurrentPage/PageSets);
@@ -197,66 +197,58 @@
                     String nxt_page = "../images/btn_nxt_page.gif";
                     String nxt_block = "../images/btn_nxt_block.gif";
 
-                    //<IMG SRC="../images/btn_bf_block.gif">&nbsp;
-                    if(CurrentPageSet>1){
-                        int BeforePageSetLastPage = PageSets *(CurrentPageSet-1);
-                        String retUrl = "BoardList.jsp?CurrentPage="+BeforePageSetLastPage+"&column="+column+"&key="+encoded_key;
-
-                        String click = "javascript:location.replace('"+retUrl+"')";
-                        out.println("<IMG SRC = "+bf_block+" onClick="+click+"style=cursor:hand>");
-                    }else{
-                        out.println("<IMG SRC="+bf_block+">");
+                    // 이전 페이지 집합 이동
+                    if (CurrentPageSet > 1) {
+                        int BeforePageSetLastPage = PageSets * (CurrentPageSet - 1);
+                        String retUrl = "BoardList.jsp?CurrentPage=" + BeforePageSetLastPage + "&column=" + column + "&key=" + encoded_key;
+                        String click = "javascript:location.replace('" + retUrl + "')";
+                        out.println("<img src=" + bf_block + " onClick=" + click + " style=cursor:pointer>");
+                    } else {
+                        out.println("<img src=" + bf_block + ">");
                     }
-
-                    //<IMG SRC="../images/btn_bf_page.gif">&nbsp;
-                    if(CurrentPage>1){
-                        int BeforePageSetLastPage = PageSets *(CurrentPage-1);
-                        String retUrl = "BoardList.jsp?CurrentPage="+BeforePageSetLastPage+"&column="+column+"&key="+encoded_key;
-
-                        String click = "javascript:location.replace('"+retUrl+"')";
-                        out.println("<IMG SRC = "+bf_page+" onClick="+click+"style=cursor:hand>");
-                    }else{
-                        out.println("<IMG SRC="+bf_page+">");
+                    // 이전 페이지 이동
+                    if (CurrentPage > 1) {
+                        int BeforePage = CurrentPage - 1;
+                        String retUrl = "BoardList.jsp?CurrentPage=" + BeforePage + "&column=" + column + "&key=" + encoded_key;
+                        String click = "javascript:location.replace('" + retUrl + "')";
+                        out.println("<img src=" + bf_page + " onClick=" + click + " style=cursor:pointer>");
+                    } else {
+                        out.println("<img src=" + bf_page + ">");
                     }
-
-                    int FirstPage = PageSets *(CurrentPageSet-1);
-                    int LastPage = PageSets *(CurrentPageSet);
-
-                    if(CurrentPageSet ==TotalPageSets){
+                    // 현재 페이지 집합 내의 네비게이션
+                    int FirstPage = PageSets * (CurrentPageSet - 1);
+                    int LastPage = PageSets * CurrentPageSet;
+                    if (CurrentPageSet == TotalPageSets) {
                         LastPage = TotalPages;
                     }
-
-                    for(int i=FirstPage+1; i<=LastPage;i++){
-                        if(CurrentPage==i){
-                            out.println("<B>"+i+"</b>");
-                        }else{
-                            String retUrl = "BoardList.jsp?CurrentPage="+i+"&column="+column+"&key="+encoded_key;
-                            out.println("<a href ="+retUrl+">"+i+"</a>");
+                    for (int i = FirstPage + 1; i <= LastPage; i++) {
+                        if (CurrentPage == i) {
+                            out.println("<b>" + i + "</b>");
+                        } else {
+                            String retUrl = "BoardList.jsp?CurrentPage=" + i + "&column=" + column + "&key=" + encoded_key;
+                            out.println("<a href=" + retUrl + ">" + i + "</a>");
                         }
                     }
-                    //<IMG SRC="../images/btn_nxt_page.gif">&nbsp;
-                    if(TotalPages>CurrentPage){
-
-                        int NextPage = CurrentPage+1;
-                        String retUrl = "BoardList.jsp?CurrentPage="+NextPage+"&column="+column+"&key="+encoded_key;
-
-                        String click = "javascript:location.replace('"+retUrl+"')";
-                        out.println("<IMG SRC = "+nxt_page+" onClick="+click+"style=cursor:hand>");
-                    }else{
-                        out.println("<IMG SRC="+nxt_page+">");
+                    // 다음 페이지 이동
+                    if (TotalPages > CurrentPage) {
+                        int NextPage = CurrentPage + 1;
+                        String retUrl = "BoardList.jsp?CurrentPage=" + NextPage + "&column=" + column + "&key=" + encoded_key;
+                        String click = "javascript:location.replace('" + retUrl + "')";
+                        out.println("<img src=" + nxt_page + " onClick=" + click + " style=cursor:pointer>");
+                    } else {
+                        out.println("<img src=" + nxt_page + ">");
+                    }
+                    // 다음 페이지 집합 이동
+                    if (TotalPageSets > CurrentPageSet) {
+                        int NextPageSet = PageSets * CurrentPageSet + 1;
+                        String retUrl = "BoardList.jsp?CurrentPage=" + NextPageSet + "&column=" + column + "&key=" + encoded_key;
+                        String click = "javascript:location.replace('" + retUrl + "')";
+                        out.println("<img src=" + nxt_block + " onClick=" + click + " style=cursor:pointer>");
+                    } else {
+                        out.println("<img src=" + nxt_block + ">");
                     }
 
-                    //<IMG SRC="../images/btn_nxt_block.gif">
-                    if(TotalPageSets>CurrentPageSet){
 
-                        int NextPageSet = PageSets* CurrentPageSet +1;
-                        String retUrl = "BoardList.jsp?CurrentPage="+NextPageSet+"&column="+column+"&key="+encoded_key;
-
-                        String click = "javascript:location.replace('"+retUrl+"')";
-                        out.println("<IMG SRC = "+nxt_block+" onClick="+click+"style=cursor:hand>");
-                    }else{
-                        out.println("<IMG SRC="+nxt_block+">");
-                    }
 
 
                 %>

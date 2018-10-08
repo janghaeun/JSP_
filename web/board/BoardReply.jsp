@@ -21,6 +21,7 @@
 		key = "";
 	}
 
+	int CurrentPage = Integer.parseInt(request.getParameter("CurrentPage"));
 	// JDBC 설정
 
 	try {
@@ -117,7 +118,7 @@
 </TABLE>
 <BR>
 
-<FORM NAME="BoardReply" METHOD=POST ACTION="BoardReplyProc.jsp?rno=<%=rno%>&column=<%=column%>&key=<%=encoded_key%>"enctype="multipart/form-data">
+<FORM NAME="BoardReply" METHOD=POST ACTION="BoardReplyProc.jsp?rno=<%=rno%>&column=<%=column%>&key=<%=encoded_key%>&CurrentPage=<%=CurrentPage%>"enctype="multipart/form-data">
 
 	<TABLE WIDTH=620 BORDER=1 CELLSPACING=0 CELLPADDING=2 ALIGN=CENTER>
 
@@ -176,7 +177,7 @@
 
 	<TR ALIGN=CENTER>
 		<TD><IMG SRC="../images/btn_save.gif" STYLE="CURSOR: HAND" onClick="javascript:CheckForm(BoardReply)">&nbsp;&nbsp;
-			<IMG SRC="../images/btn_cancel.gif" STYLE="CURSOR: HAND" onClick="javascript:location.replace('BoardContent.jsp?rno=<%=rno%>&column=<%=column%>&key=<%=encoded_key%>')" ></TD>
+			<IMG SRC="../images/btn_cancel.gif" STYLE="CURSOR: HAND" onClick="javascript:location.replace('BoardContent.jsp?rno=<%=rno%>&column=<%=column%>&key=<%=encoded_key%>&CurrentPage=<%=CurrentPage%>')" ></TD>
 	</TR>
 
 </TABLE>
