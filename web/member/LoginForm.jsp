@@ -1,4 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR" %>
+<%@page import="java.net.URLEncoder" %>
+<%
+    int m_cp = Integer.parseInt(request.getParameter("CurrentPage"));
+
+    String m_column = request.getParameter("column");
+    if(m_column ==null) m_column="";
+
+    String m_encoded_key = null;
+
+    String m_key = request.getParameter("key");
+    if(m_key !=null){
+        m_encoded_key = URLEncoder.encode(m_key, "utf-8");
+    }else {
+        m_key ="";
+    }
+
+%>
+
 
 <SCRIPT language="javascript" SRC="../include/scripts.js"></SCRIPT>
 
@@ -14,7 +32,7 @@
             </TD>
             <TD ALIGN=RIGHT WIDTH=300>
                 <IMG SRC="../images/btn_idpw_srch.gif" STYLE=CURSOR:HAND>
-                <IMG SRC="../images/btn_be_member.gif" STYLE=CURSOR:HAND>
+                <IMG SRC="../images/btn_be_member.gif" onclick="javascript:location.replace('../member/BeMember.jsp?CurrentPage=<%=m_cp%>&column=<%=m_column%>&key=<%=m_encoded_key%>')" STYLE=CURSOR:HAND>
             </TD>
         </TR>
 

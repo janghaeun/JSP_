@@ -99,7 +99,11 @@
     String member_id = (String)session.getAttribute("member_id");
     if(member_id == null) {
 %>
-<jsp:include page="../member/LoginForm.jsp"/>
+<jsp:include page="../member/LoginForm.jsp">
+    <jsp:param value="<%=CurrentPage%>" name="CurrentPage"/>
+    <jsp:param value="<%=column%>" name="column"/>
+    <jsp:param value="<%=key%>" name="key"/>
+</jsp:include>
 <%
 } else {
 %>
