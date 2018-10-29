@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+ <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.net.URLEncoder" %>
 
-<% request.setCharacterEncoding("utf-8"); %>.,
+<% request.setCharacterEncoding("utf-8"); %>
 
 <%
     Connection conn = null;
@@ -276,8 +276,8 @@
     }catch(SQLException e){
         e.printStackTrace();
     }finally {
-        rs1.close();
         rs2.close();
+        rs1.close();
         pstmt.close();
         conn.close();
     }

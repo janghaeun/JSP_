@@ -18,7 +18,7 @@
 %>
 <HTML>
 <HEAD>
-    <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="TEXT/HTML; CHARSET=euc-kr"/>
+    <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="TEXT/HTML; CHARSET=utf-8"/>
     <LINK REL="stylesheet" type="text/css" href="../include/style.css">
     <SCRIPT language="javascript" SRC="../include/scripts.js"></SCRIPT>
     <TITLE>회원가입</TITLE>
@@ -44,11 +44,11 @@
                 return;
             }
 
-            if(!JuminNoCheck(form.UserJumin1, form.UserJumin2)){
-                alert("주민번호가 적절치 않습니다");
-                form.UserJumin1.focus();
-                return;
-            }
+            // if(!JuminNoCheck(form.UserJumin1, form.UserJumin2)){
+            //     alert("주민번호가 적절치 않습니다");
+            //     form.UserJumin1.focus();
+            //     return;
+            // }
 
             if(!form.UserId.value){
                 alert("사용자 아이디를 입력하세요.");
@@ -160,7 +160,7 @@
         <TR>
             <TD WIDTH=120 ALIGN=CENTER><B>아이디</B></TD>
             <TD WIDTH=500>
-                <INPUT TYPE=TEXT NAME="UserId" SIZE=20 MAXLENGTH=10>
+                <INPUT TYPE=TEXT NAME="UserId" SIZE=20 MAXLENGTH=10 style="ime-mode:inactive">
                 <IMG SRC="../images/btn_dup_id_3.gif" BORDER=0 ALIGN=ABSMIDDLE STYLE=CURSOR:HAND>
             </TD>
         </TR>
@@ -229,7 +229,7 @@
     <TR ALIGN=CENTER>
         <TD>
             <IMG SRC="../images/btn_be_member_3.gif" onClick="javascript:CheckMemberForm(BeMember)" STYLE=CURSOR:HAND>&nbsp;&nbsp;
-            <IMG SRC="../images/btn_mb_cancel_3.gif" onclick="javascript:location.replace('../member/BeMember.jsp?CurrentPage=<%=m_cp%>&column=<%=m_column%>&key=<%=m_encoded_key%>')" STYLE=CURSOR:HAND>
+            <IMG SRC="../images/btn_mb_cancel_3.gif" onclick="javascript:location.replace('../board/BoardList.jsp?CurrentPage=<%=m_cp%>&column=<%=m_column%>&key=<%=m_encoded_key%>')" STYLE=CURSOR:HAND>
         </TD>
     </TR>
 
