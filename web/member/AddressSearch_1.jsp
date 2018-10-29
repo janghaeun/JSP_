@@ -1,27 +1,40 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
-//аж╪р ╪╜д║
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="UTF-8"%>
+//Лё╪Л├▄ Л└°Л╧≤
+<%String frm = request.getParameter("frm");%>
 <HTML>
 <HEAD>
 	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="TEXT/HTML; CHARSET=euc-kr"/>
 	<LINK REL="stylesheet" type="text/css" href="../include/style.css">
-	<TITLE>аж╪рцё╠Б - 1╢э╟Х</TITLE>
+	<TITLE>Лё╪Л├▄Л╟╬Й╦╟ - 1К▀╗ЙЁ└</TITLE>
+
+	<script language="javascript">
+		function CheckForm(form) {
+			if(!form.UserAddress.value){
+			    alert('Л²█К╘╢К▐≥ Л²╢К╕└Л²└ Л·┘К═╔М∙≤Л└╦Л ■');
+			    form.UserAddress.focus();
+			    return;
+			}
+			form.submit();
+        }
+	</script>
 </HEAD>
 
 <BODY TOPMARGIN=0 LEFTMARGIN=0>
 
-<FORM NAME="AddressSearch1" METHOD=POST ACTION="AddressSearch_2.jsp">
+<FORM NAME="AddressSearch1" METHOD=POST ACTION="AddressSearch_2.jsp" frm="<%=frm%>">
 
 <TABLE WIDTH=500 CELLSPACING=0 CELLPADDING=0 TOPMARGIN=0 LEFTMARGIN=0>
 
 	<TR BGCOLOR=#A0A0A0>
-		<TD ALIGN=CENTER HEIGHT=30><FONT COLOR=WHITE SIZE=3><B>аж╪рцё╠Б - 1╢э╟Х</B></FONT></TD>
+		<TD ALIGN=CENTER HEIGHT=30><FONT COLOR=WHITE SIZE=3><B>Лё╪Л├▄Л╟╬Й╦╟ - 1К▀╗ЙЁ└</B></FONT></TD>
 	</TR>
 	
 	<TR>
 		<TD ALIGN=CENTER HEIGHT=150>
+
 			<INPUT TYPE=TEXT NAME="UserAddress" SIZE=20>
-			<IMG SRC="../images/btn_search.gif" BORDER=0 ALIGN=ABSMIDDLE STYLE=CURSOR:HAND ><BR><BR>
-			цё╟Мюз го╫ц╢б ю╬, ╦М, ╣©юг юл╦╖ю╩ ют╥бго╪╪©Д.<BR>(©╧) ╫е╣╣╦╡╣©юн ╟Ф©Л '╫е╣╣╦╡'
+			<IMG SRC="../images/btn_search.gif" BORDER=0 ALIGN=ABSMIDDLE STYLE=CURSOR:HAND onclick="javascript:CheckForm(AddressSearch1)" ><BR><BR>
+			Л╟╬ЙЁ═Л·░ М∙≤Л▀°К┼■ Л²█, К╙┘, К▐≥Л²≤ Л²╢К╕└Л²└ Л·┘К═╔М∙≤Л└╦Л ■.<BR>(Л≤┬) Л▀═К▐└К╕╪К▐≥Л²╦ Й╡╫Л ╟ 'Л▀═К▐└К╕╪'
 		</TD>
 	</TR>
 
