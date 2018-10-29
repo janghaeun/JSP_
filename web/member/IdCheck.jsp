@@ -35,17 +35,17 @@
 
 
 	<script language="JavaScript">
-		function CheckForm(form) {
-		    if(!form.UserId.value){
-		        alert("ID를 입력하세요.");
-		        form.UserId.focus();
-		        return;
-			}
-			form.submit();
-		}
+        function CheckForm(form) {
+            if (!form.UserId.value) {
+                alert('아이디를 입력하세요.');
+                form.UserId.focus();
+                return;
+            }
+            form.submit();
+        }
 
 		function UseID() {
-		    opener.document.BeMember.UserId.value = '<%=UserId%>';
+            opener.document.BeMember.UserId.value = '<%=UserId%>';
 		    self.close();
         }
 	</script>

@@ -16,7 +16,7 @@
 
     String m_key = request.getParameter("key");
     if(m_key!=null) {
-        m_encoded_key = URLEncoder.encode(m_key,"euc-kr");
+        m_encoded_key = URLEncoder.encode(m_key,"utf-8");
     } else {
         m_key="";
     }
@@ -30,9 +30,9 @@
 
     try {
         //------------------------------- JDBC 설정
-        String jdbcUrl = "jdbc:mysql://localhost:3306/jspdb";
-        String jdbcId = "jspuser";
-        String jdbcPw = "jsppass";
+        String jdbcUrl = "jdbc:mysql://localhost:3306/jspdb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+        String jdbcId = "root";
+        String jdbcPw = "rootpass";
 
         Class.forName("com.mysql.jdbc.Driver");
         conn = DriverManager.getConnection(jdbcUrl,jdbcId,jdbcPw);
