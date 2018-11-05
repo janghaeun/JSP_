@@ -34,8 +34,8 @@
 	
 	<TR>
 		<TD HEIGHT=50 ALIGN=CENTER HEIGHT=40>
-			<IMG SRC="../images/btn_idpw_srch_ok.gif" STYLE=CURSOR:HAND>&nbsp;&nbsp;
-			<IMG SRC="../images/btn_idpw_srch_cancel.gif" STYLE=CURSOR:HAND>
+			<IMG SRC="../images/btn_idpw_srch_ok.gif" onclick="javascript:IdPwSearch.submit()" STYLE=CURSOR:HAND>&nbsp;&nbsp;
+			<IMG SRC="../images/btn_idpw_srch_cancel.gif" onclick="javascript:self.close()" STYLE=CURSOR:HAND>
 		</TD>
 	</TR>
 

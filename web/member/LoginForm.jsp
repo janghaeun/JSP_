@@ -31,7 +31,7 @@
                 <IMG SRC="../images/btn_login.gif" WIDTH=41 HEIGHT=22 ALIGN=ABSBOTTOM STYLE=CURSOR:HAND>
             </TD>
             <TD ALIGN=RIGHT WIDTH=300>
-                <IMG SRC="../images/btn_idpw_srch.gif" STYLE=CURSOR:HAND>
+                <IMG SRC="../images/btn_idpw_srch.gif" onclick="javascript:IdPwSearchWin('../member/IdPwSearch.jsp','IDPW',377,200,'no')" STYLE=CURSOR:HAND >
                 <IMG SRC="../images/btn_be_member.gif" onclick="javascript:location.replace('../member/BeMember.jsp?CurrentPage=<%=m_cp%>&column=<%=m_column%>&key=<%=m_encoded_key%>')" STYLE=CURSOR:HAND>
             </TD>
         </TR>
