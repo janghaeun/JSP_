@@ -180,3 +180,13 @@ function AddressSearch(ref, fname, myname, w, h, scroll) {
     ref = ref + "?" + "frm" + "=" + fname;
     window.open(ref, myname, winprops);
 }
+
+//idpw 찾기 버튼 ㅡㄹ릭시 idpwsearch  문서를 출력할 윈도우 생성 함수 추가
+
+function IdPwSerachWin(ref, myname, w,h, scroll) {
+
+    var winl = (screen.width -w) / 2;
+    var wint = (screen.height -h) / 2;
+    winprops = 'height=' + h + ',width=' + w + ',top=' + wint + ',left=' + winl + ',scrollbars=' + scroll;
+    window.open(ref, myname, winprops);
+}
