@@ -183,7 +183,7 @@ function AddressSearch(ref, fname, myname, w, h, scroll) {
 
 //idpw 찾기 버튼 ㅡㄹ릭시 idpwsearch  문서를 출력할 윈도우 생성 함수 추가
 
-function IdPwSerachWin(ref, myname, w,h, scroll) {
+function IdPwSearchWin(ref, myname, w,h, scroll) {
 
     var winl = (screen.width -w) / 2;
     var wint = (screen.height -h) / 2;
