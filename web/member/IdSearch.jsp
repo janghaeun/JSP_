@@ -27,11 +27,11 @@
 			    return;
 			}
 
-			if (! JuminNoCheck(form.UserJumin1,form.UserJumin2)){
-			    alert('주민번호가 적절치 않습니다.');
-			    form.UserJumin1.focus();
-			    return;
-			}
+			// if (! JuminNoCheck(form.UserJumin1,form.UserJumin2)){
+			//     alert('주민번호가 적절치 않습니다.');
+			//     form.UserJumin1.focus();
+			//     return;
+			// }
 
 			form.submit();
         }
