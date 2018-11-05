@@ -101,7 +101,13 @@
 <%
 } else {
 %>
-<jsp:include page="../member/LoginState.jsp" />
+//loginState 문서에 페이지 정보와 키워드 검색을 위한 정보 전달 값 입력
+<jsp:include page="../member/LoginState.jsp">
+	<jsp:param name="CurrentPage" value="<%=CurrentPage%>"/>
+	<jsp:param name="column" value="<%=column%>"/>
+	<jsp:param name="key" value="<%=key%>"/>
+</jsp:include>
+
 <%
 	}
 //------------------------------- JSP CODE END
